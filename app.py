@@ -10,7 +10,7 @@ import secrets
 app = Flask(__name__)
 app.secret_key = "super_secret_key_123"
 
-CORS(app, resources={r"/*": {"origins": "https://consultas-iub.netlify.app"}})
+CORS(app, resources={r"/*": {"origins": "https://api-prueba-2-r35v.onrender.com/"}})
 
 
 # ==========================
@@ -550,4 +550,5 @@ def firmar_consulta(id_consulta):
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
