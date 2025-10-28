@@ -10,7 +10,7 @@ import secrets
 app = Flask(__name__)
 app.secret_key = "super_secret_key_123"
 
-CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500"}})
+CORS(app, resources={r"/*": {"origins": "https://api-prueba-2-zc3q.onrender.com"}})
 
 
 # ==========================
@@ -548,4 +548,5 @@ def firmar_consulta(id_consulta):
 
 
 if __name__ == "__main__":
+
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
