@@ -369,37 +369,59 @@ def obtener_lideres():
     return jsonify({'success': True, 'lideres': lideres})
 
 
-# ==========================
-# REGISTRO DE USUARIOS
-# ==========================
 @app.route('/registrar_usuario', methods=['POST'])
 def registrar_usuario():
-    datos = request.get_json(force=True)
-    id_usuario = datos.get("id")
-    nombre = datos.get("nombre")
-    contra = datos.get("contra")
-    rol = datos.get("rol")
-    id_programa = datos.get("id_programa", None)
+    try:
+        datos = request.get_json(force=True)
+        id_usuario = datos.get("id")
+        nombre = datos.get("nombre")
+        contra = datos.get("contra")
+        rol = datos.get("rol")
+        id_programa = datos.get("id_programa")  # puede venir vacío o None
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+        if not id_usuario or not nombre or not rol or not contra:
+            return jsonify({'success': False, 'error': 'Faltan campos obligatorios'}), 400
 
-    cursor.execute("SELECT id FROM usuarios WHERE id = %s", (id_usuario,))
-    if cursor.fetchone():
-        cursor.close()
-        conexion.close()
-        return jsonify({'success': False, 'error': 'Usuario ya registrado'})
+        # Ajustar id_programa según rol
+        if rol != "Estudiante":
+            id_programa = None
+        else:
+            # Validar que el programa exista para estudiantes
+            if not id_programa:
+                return jsonify({'success': False, 'error': 'Estudiante debe tener un programa académico'}), 400
 
-    cursor.execute("""
-        INSERT INTO usuarios (id, nombre, id_programa, rol, contraseña)
-        VALUES (%s, %s, %s, %s, %s)
-    """, (id_usuario, nombre, id_programa, rol, contra))
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
 
-    conexion.commit()
-    cursor.close()
-    conexion.close()
+        # Validar que usuario no exista
+        cursor.execute("SELECT id FROM usuarios WHERE id = %s", (id_usuario,))
+        if cursor.fetchone():
+            return jsonify({'success': False, 'error': 'Usuario ya registrado'}), 400
 
-    return jsonify({'success': True, 'message': 'Usuario registrado correctamente'})
+        # Validar programa si es estudiante
+        if rol == "Estudiante":
+            cursor.execute("SELECT id FROM programas_academicos WHERE id = %s", (id_programa,))
+            if not cursor.fetchone():
+                return jsonify({'success': False, 'error': 'El programa académico no existe'}), 400
+
+        # Insertar usuario
+        cursor.execute("""
+            INSERT INTO usuarios (id, nombre, id_programa, rol, contraseña)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (id_usuario, nombre, id_programa, rol, contra))
+
+        conexion.commit()
+        return jsonify({'success': True, 'message': 'Usuario registrado correctamente'})
+
+    except mysql.connector.Error as e:
+        return jsonify({'success': False, 'error': f'Error MySQL: {str(e)}'}), 500
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+        if 'conexion' in locals():
+            conexion.close()
 
 
 # ==========================
@@ -551,6 +573,7 @@ def firmar_consulta(id_consulta):
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
 
 
