@@ -18,10 +18,11 @@ CORS(app, resources={r"/*": {"origins": "https://consultas-iub.netlify.app"}})
 # ==========================
 def obtener_conexion():
     return mysql.connector.connect(
-        host="sql5.freesqldatabase.com",
-        user="sql5804917",
-        password="hBRxdWpJQZ",
-        database="sql5804917"
+        host="consultas-iub-db.crowmwmuizav.us-east-2.rds.amazonaws.com",  # 👈 tu endpoint exacto
+        user="admin",            # 👈 usuario de RDS
+        password="ADMIN12345",  # 👈 reemplázala con tu contraseña real
+        database="consultas_iub",  # 👈 nombre exacto del schema
+        port=3306
     )
 
 
@@ -550,6 +551,7 @@ def firmar_consulta(id_consulta):
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
 
 
