@@ -18,10 +18,10 @@ CORS(app, resources={r"/*": {"origins": "https://consultas-iub.netlify.app"}})
 # ==========================
 def obtener_conexion():
     return mysql.connector.connect(
-        host="consultas-iub-db.crowmwmuizav.us-east-2.rds.amazonaws.com",
-        user="admin",
-        password="ADMIN12345",
-        database="consultas_iub"
+        host="sql5.freesqldatabase.com",
+        user="sql5804917",
+        password="hBRxdWpJQZ",
+        database="sql5804917"
     )
 
 
