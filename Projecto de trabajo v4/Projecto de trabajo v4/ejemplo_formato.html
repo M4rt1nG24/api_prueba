@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Asistencia</title>
+  <link rel="stylesheet" href="css/formato.css">
+  <script src="Javascript/formato.js" defer></script>
+</head>
+
+<body>
+<div class="container">
+
+  <table>
+    <thead>
+      <!-- ENCABEZADO -->
+      <tr>
+        <th colspan="11">
+          <div class="header">
+            <div class="logo-docente">
+              <img src="Fotos/Logo de la u.png" alt="Logo Universidad" class="logo">
+            </div>
+
+            <div class="titulo">
+              <h2>CONSULTA ESTUDIANTES</h2>
+            </div>
+
+            <div class="columna_vigencia">
+              <p><b>FR-GPA-16-V8</b></p>
+              <p>Vigencia: 15/12/2022</p>
+            </div>
+          </div>
+
+      <div class="bloque-docente-programa">
+        <div class="bloque-pequeno">
+          <label><b>Docente:</b></label>
+          <span id="nombre_docente"></span>
+        </div>
+
+  <div class="bloque-pequeno">
+    <label><b>Programa:</b></label>
+    <input type="text" id="programa_academico" placeholder="Programa académico">
+  </div>
+</div>
+
+
+      <!-- ENCABEZADOS DE LISTA -->
+      <tr>
+        <th>No.</th>
+        <th>Nombre completo del estudiante</th>
+        <th>Tipo de Documento</th>
+        <th>Número de identificación</th>
+        <th>Tema de desarrollo</th>
+        <th>Programa</th>
+        <th>Módulo</th>
+        <th>Lugar de consulta</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Firma del estudiante</th>
+      </tr>
+    </thead>
+
+    <tbody id="tabla_estudiantes">
+      <!-- Filas dinámicas -->
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="11">
+          <div class="firmas">
+            <div class="columna-izquierda">
+              <div class="firma-bloque" id="firmaDocente" onclick="abrirModalFirma('docente')">
+                <hr>
+                <p>Firma del Docente</p>
+              </div>
+
+              <div class="firma-bloque" id="firmaDecano" onclick="abrirModalFirma('decano')">
+                <hr>
+                <p>Firma del Líder o Decano</p>
+              </div>
+            </div>
+
+            <div class="columna-derecha">
+              <h4>Observaciones / Comentarios</h4>
+              <textarea placeholder="Escriba aquí las observaciones..."></textarea>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+
+
+</div>
+</body>
+</html>

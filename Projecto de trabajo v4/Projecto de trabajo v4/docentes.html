@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Docentes</title>
+    <link rel="stylesheet" href="css/docentes.css">
+</head>
+<body>
+    <!-- ==========================
+         🔹 ENCABEZADO PRINCIPAL
+    =========================== -->
+    <header>
+        <img src="Fotos/Logo de la u.png" alt="Logo Universidad" class="logo">
+        <div class="usuario" id="nombreDocente"></div>
+        <button class="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+    </header>
+
+    <!-- ==========================
+         🔹 MENÚ PRINCIPAL
+    =========================== -->
+    <nav class="menu">
+        <button class="tablink active" onclick="openTab(event, 'consultas')">Listado de Consultas</button>
+        <button class="tablink" onclick="openTab(event, 'registroConsultas')">Registro de Consultas</button>
+        <button class="tablink" onclick="openTab(event, 'solicitudConsultas')">Solicitud de Consultas</button>
+    </nav>
+
+    <!-- ==========================
+         🔹 LISTADO DE CONSULTAS
+    =========================== -->
+    <section id="consultas" class="tabcontent active">
+        <h1>Listado de consultas de estudiantes</h1>
+
+        <!-- Filtros -->
+        <div class="filtros">
+            <label>Fecha:</label>
+            <input type="date" id="buscarFecha">
+
+            <label>Hora:</label>
+            <input type="time" id="buscarHora">
+
+            <label>Mes:</label>
+            <select id="buscarMes">
+                <option value="">Todos</option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+
+            <label>Estudiante:</label>
+            <select id="buscarEstudiante">
+                <option value="">Todos</option>
+            </select>
+
+            <button onclick="obtenerConsultasFiltradas()">Filtrar</button>
+            <button onclick="exportarExcel()">Exportar a Excel</button>
+            <button onclick="exportarformato()">Exportar a formato</button>
+        </div>
+
+        <table id="tablaconsultas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del estudiante</th>
+                    <th>ID del estudiante</th>
+                    <th>Módulo</th>
+                    <th>Tema</th>
+                    <th>Programa</th>
+                    <th>Hora</th>
+                    <th>Fecha</th>
+                    <th>Lugar</th>
+                    <th>Firma</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- ==========================
+         🔹 SOLICITUDES DE CONSULTAS
+    =========================== -->
+    <section id="solicitudConsultas" class="tabcontent">
+        <h2>Solicitudes de Consultas de Estudiantes</h2>
+
+        <!-- Filtros -->
+        <div class="filtros">
+            <label>Fecha:</label>
+            <input type="date" id="buscarFechaSolicitud">
+
+            <label>Hora:</label>
+            <input type="time" id="buscarHoraSolicitud">
+
+            <label>Mes:</label>
+            <select id="buscarMesSolicitud">
+                <option value="">Todos</option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+
+            <label>Estudiante:</label>
+            <select id="buscarEstudianteSolicitud">
+                <option value="">Todos</option>
+            </select>
+
+            <button onclick="obtenerSolicitudesFiltradas()">Filtrar</button>
+
+
+        <table id="tablaSolicitudes">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estudiante</th>
+                    <th>Programa</th>
+                    <th>Módulo</th>
+                    <th>Tema</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Lugar</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- ==========================
+         🔹 REGISTRO DE CONSULTAS
+    =========================== -->
+    <section id="registroConsultas" class="tabcontent">
+        <h2>Registrar Consulta</h2>
+        <form id="consultaForm">
+            <label>Número de Documento del estudiante:</label>
+            <input type="text" id="numeroDocumentoEstudiante" required>
+
+            <label>Módulo</label>
+            <select id="buscar_modulo" required>
+                <option value="">Seleccione un módulo</option>
+            </select>
+
+            <label>Tema:</label>
+            <input type="text" id="temaConsulta" required>
+
+            <label>Fecha:</label>
+            <input type="date" id="fechaConsulta" required>
+
+            <label>Hora:</label>
+            <input type="time" id="horaConsulta" required>
+
+            <label>Lugar:</label>
+            <input type="text" id="Lugar_consulta" required>
+
+            <button type="submit">Registrar Consulta</button>
+        </form>
+    </section>
+
+    <!-- ==========================
+         🔹 LECTOR QR
+    =========================== -->
+    <div id="lectorQR" style="width:300px; margin:20px auto;"></div>
+
+    <!-- ==========================
+         🔹 MODAL EDITAR CONSULTA
+    =========================== -->
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <h3>Editar Consulta</h3>
+            <form id="formEditarConsulta">
+                <input type="hidden" id="idConsultaEditar">
+
+                <label>Nueva Fecha:</label>
+                <input type="date" id="nuevaFecha" required>
+
+                <label>Nueva Hora:</label>
+                <input type="time" id="nuevaHora" required>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-guardar">Guardar</button>
+                    <button type="button" class="btn-cancelar" onclick="cerrarModal()">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================
+         🔹 SCRIPTS
+    =========================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="Javascript/Docentes.js"></script>
+
+</body>
+</html>

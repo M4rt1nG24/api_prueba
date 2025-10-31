@@ -1,0 +1,234 @@
+/* =========================================
+   🎨 GENERAL
+========================================= */
+* { box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  background: #fff;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 297mm;
+  margin-left: 3mm;
+  padding: 6mm 4mm;
+  background: #fff;
+}
+
+/* =========================================
+   🧾 ENCABEZADO
+========================================= */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #000;
+  padding: 4px;
+  background: #fff;
+}
+
+.logo-docente,
+.columna_vigencia {
+  width: 160px;
+  text-align: center;
+  border: 1px solid #000;
+  padding: 3px;
+}
+
+.logo { width: 50px; margin-bottom: 2px; }
+
+.titulo {
+  flex: 1;
+  text-align: center;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  padding: 3px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* =========================================
+   📄 BLOQUE DOCENTE Y PROGRAMA
+========================================= */
+.bloque-docente-programa {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  gap: 10px;
+}
+
+.bloque-pequeno {
+  width: 48%;
+  border: 1px solid #000;
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  background: #fff;
+}
+
+.bloque-pequeno input {
+  width: 60%;
+  font-size: 9px;
+  padding: 1px;
+  border: 1px solid #000;
+  text-align: center;
+}
+
+/* =========================================
+   📋 TABLA PRINCIPAL
+========================================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9px;
+  table-layout: fixed;
+}
+
+th, td {
+  border: 1px solid #000;
+  text-align: center;
+  padding: 2px;
+}
+
+th { font-weight: bold; }
+thead { display: table-header-group; }
+tfoot { display: table-footer-group; }
+tbody tr { page-break-inside: avoid !important; }
+
+/* =========================================
+   ✍️ FIRMAS Y OBSERVACIONES
+========================================= */
+.firmas {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  gap: 6px;
+}
+
+.columna-izquierda {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.firma-bloque {
+  border: 1px solid #000;
+  text-align: center;
+  padding: 6px 4px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.firma-bloque hr {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 15px 0 3px 0;
+}
+
+.firma-bloque p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 9px;
+}
+
+.columna-derecha {
+  width: 45%;
+  border: 1px solid #000;
+  padding: 4px;
+}
+
+.columna-derecha h4 {
+  text-align: center;
+  margin: 0 0 3px 0;
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  padding-bottom: 2px;
+}
+
+.columna-derecha textarea {
+  width: 100%;
+  height: 28px;
+  border: none;
+  resize: none;
+  font-size: 9px;
+  outline: none;
+  background: #fff;
+}
+
+/* =========================================
+   🖨️ MODO IMPRESIÓN
+========================================= */
+@media print {
+  @page { size: A4 landscape; margin: 8mm 5mm; }
+  html, body { width: 297mm; height: 210mm; background: #fff; color: #000; }
+  textarea, input { border: none; background: #fff; }
+  .container { border: none; padding-left: 3mm; }
+  .firma-bloque img { max-width: 120px; max-height: 60px; }
+}
+
+/* =========================================
+   🖌️ MODAL DE FIRMAS
+========================================= */
+.modal-firma {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-firma .modal-contenido {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  width: 450px;
+  max-width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.modal-firma h3 {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.modal-firma canvas {
+  border: 1px solid #000;
+  background: #fff;
+  cursor: crosshair;
+  width: 100%;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.modal-firma .botones {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.modal-firma .botones button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.modal-firma .botones button:hover { background: #0056b3; }
+

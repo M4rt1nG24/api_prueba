@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Estudiantes</title>
+    <link rel="stylesheet" href="css/estudiantes.css">
+</head>
+<body>
+    <header>
+        <img src="Fotos/Logo de la u.png" alt="Logo Universidad" class="logo">
+        <div class="usuario" id="nombreUsuario"></div>
+        <button class="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+    </header>
+
+    <!-- Menú -->
+    <nav class="menu">
+        <button class="tablink active" onclick="openTab(event, 'consultas')"> Mis Consultas</button>
+        <button class="tablink" onclick="openTab(event, 'solicitar')"> Solicitar Consulta</button>
+         <button class="tablink" onclick="openTab(event, 'solicitudes')"> Solicitudes</button>
+    </nav>
+
+     
+
+
+    <!-- Listado de consultas -->
+    <section id="consultas" class="tabcontent active">
+        <h2> Listado de Mis Consultas</h2>
+        <!-- Filtros -->
+        <div class="filtros">
+            <label>Fecha:</label>
+            <input type="date" id="buscarFecha">
+
+            <label>Hora:</label>
+            <input type="time" id="buscarHora">
+
+            <label>Mes:</label>
+            <select id="buscarMes">
+                <option value="">Todos</option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+
+            <label>Docente:</label>
+            <select id="buscarDocente">
+                <option value="">Todos</option>
+            </select>
+
+            <button onclick="obtenerConsultasFiltradas()">Filtrar</button>
+        <table id="tablaconsultas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estudiante</th>
+                    <th>Módulo</th>
+                    <th>Tema</th>
+                    <th>Lugar</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Docente</th>
+                    <th>Firma</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- Solicitud de consulta -->
+    <section id="solicitar" class="tabcontent">
+        <h2> Solicitar Nueva Consulta</h2>
+        <form id="formSolicitud">
+            <label>Tema:</label>
+            <input type="text" id="tema" required>
+
+            <label>Fecha:</label>
+            <input type="date" id="fecha" required>
+
+            <label>Hora:</label>
+            <input type="time" id="hora" required>
+
+            <label>Lugar:</label>
+            <input type="text" id="lugar" required>
+
+            <label>Docente:</label>
+            <select id="docente" required></select>
+
+            <label>Módulo:</label>
+            <select id="modulo" required></select>
+
+            <button type="submit">📤 Enviar solicitud</button>
+        </form>
+    </section>
+
+    <!-- ==========================
+         🔹 SOLICITUDES DE CONSULTAS
+    =========================== -->
+    <section id="solicitudes" class="tabcontent">
+        <h2>Solicitudes de Consultas de Estudiantes</h2>
+        <table id="tablaSolicitudes">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estudiante</th>
+                    <th>Programa</th>
+                    <th>Módulo</th>
+                    <th>Tema</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Lugar</th>
+                    <th>Estado</th>
+                    <th>docente</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- Modal de firma digital -->
+    <div id="modalFirma" style="display:none;
+        position:fixed; top:0; left:0; width:100%; height:100%;
+        background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+        <div style="background:#fff; padding:20px; border-radius:10px; text-align:center;">
+            <h3>✍️ Firmar Consulta</h3>
+            <div id="rootFirma"></div>
+            <br>
+            <button id="btnConfirmarFirma">Confirmar</button>
+            <button onclick="cerrarModalFirma()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/lemonadejs/dist/lemonade.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@lemonadejs/signature/dist/index.min.js"></script>
+    <script src="Javascript/Estudiantes.js"></script>
+</body>
+</html>
