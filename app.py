@@ -574,20 +574,28 @@ def guardar_reporte():
     data = request.get_json()
     id_usuario = data.get('id_usuario')
     nombre_reporte = data.get('nombre_reporte')
+    archivo_pdf_base64 = data.get('archivo_pdf')
 
-    if not id_usuario or not nombre_reporte:
+    if not id_usuario or not nombre_reporte or not archivo_pdf_base64:
         return jsonify({"message": "Faltan datos requeridos."}), 400
 
     try:
+        # Decodificar PDF base64 a binario
+        import base64
+        archivo_pdf = base64.b64decode(archivo_pdf_base64)
+
         conexion = obtener_conexion()
         cursor = conexion.cursor()
 
-        sql = "INSERT INTO reportes (id_usuario, nombre_reporte) VALUES (%s, %s)"
-        valores = (id_usuario, nombre_reporte)
+        sql = """
+        INSERT INTO reportes (id_usuario, nombre_reporte, archivo_pdf)
+        VALUES (%s, %s, %s)
+        """
+        valores = (id_usuario, nombre_reporte, archivo_pdf)
         cursor.execute(sql, valores)
         conexion.commit()
 
-        return jsonify({"message": "Reporte guardado correctamente."}), 200
+        return jsonify({"message": "Reporte y PDF guardados correctamente."}), 200
 
     except Exception as e:
         print("❌ Error al guardar reporte:", e)
@@ -603,6 +611,7 @@ def guardar_reporte():
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
 
 
