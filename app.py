@@ -610,7 +610,7 @@ def guardar_reporte():
 @app.route("/reportes/<int:id_usuario>", methods=["GET"])
 def obtener_reportes(id_usuario):
     try:
-        conexion = conectar_bd()
+        conexion = obtener_conexion()
         cursor = conexion.cursor(dictionary=True)
 
         cursor.execute("SELECT id_reporte, nombre_reporte, fecha_creacion FROM reportes WHERE id_usuario = %s", (id_usuario,))
@@ -632,7 +632,7 @@ def obtener_reportes(id_usuario):
 @app.route("/ver_reporte/<int:id_reporte>", methods=["GET"])
 def ver_reporte(id_reporte):
     try:
-        conexion = conectar_bd()
+        conexion = conexion()
         cursor = conexion.cursor()
         cursor.execute("SELECT archivo_pdf FROM reportes WHERE id_reporte = %s", (id_reporte,))
         resultado = cursor.fetchone()
