@@ -569,48 +569,43 @@ def firmar_consulta(id_consulta):
     conexion.close()
     return jsonify({'success': True, 'message': 'Consulta firmada con éxito'})
 
-@app.route('/guardar_reporte', methods=['POST'])
+# ==========================
+# GUARDAR REPORTE EN PDF
+# ==========================
+@app.route("/guardar_reporte", methods=["POST"])
 def guardar_reporte():
-    data = request.get_json()
-    id_usuario = data.get('id_usuario')
-    nombre_reporte = data.get('nombre_reporte')
-    archivo_pdf_base64 = data.get('archivo_pdf')
-
-    if not id_usuario or not nombre_reporte or not archivo_pdf_base64:
-        return jsonify({"message": "Faltan datos requeridos."}), 400
-
     try:
-        # Decodificar PDF base64 a binario
-        import base64
-        archivo_pdf = base64.b64decode(archivo_pdf_base64)
+        data = request.get_json()
+        id_usuario = data.get("id_usuario")
+        nombre_reporte = data.get("nombre_reporte")
+        archivo_pdf_base64 = data.get("archivo_pdf")
 
-        conexion = obtener_conexion()
+        if not (id_usuario and nombre_reporte and archivo_pdf_base64):
+            return jsonify({"message": "Datos incompletos"}), 400
+
+        # Convertir base64 a binario
+        archivo_pdf_bytes = base64.b64decode(archivo_pdf_base64)
+
+        conexion = conectar_bd()
         cursor = conexion.cursor()
 
-        sql = """
-        INSERT INTO reportes (id_usuario, nombre_reporte, archivo_pdf)
-        VALUES (%s, %s, %s)
-        """
-        valores = (id_usuario, nombre_reporte, archivo_pdf)
-        cursor.execute(sql, valores)
+        query = "INSERT INTO reportes (id_usuario, nombre_reporte, archivo_pdf) VALUES (%s, %s, %s)"
+        cursor.execute(query, (id_usuario, nombre_reporte, archivo_pdf_bytes))
         conexion.commit()
 
-        return jsonify({"message": "Reporte y PDF guardados correctamente."}), 200
+        cursor.close()
+        conexion.close()
+
+        return jsonify({"message": "Reporte PDF guardado correctamente."}), 200
 
     except Exception as e:
-        print("❌ Error al guardar reporte:", e)
-        return jsonify({"message": f"Error al guardar el reporte: {str(e)}"}), 500
-
-    finally:
-        if 'cursor' in locals():
-            cursor.close()
-        if 'conexion' in locals():
-            conexion.close()
-
+        print("Error al guardar el reporte:", e)
+        return jsonify({"message": "Error al guardar el reporte", "error": str(e)}), 500
 
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
 
 
