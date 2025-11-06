@@ -584,9 +584,10 @@ def guardar_reporte():
             return jsonify({"message": "Datos incompletos"}), 400
 
         # Convertir base64 a binario
+        import base64
         archivo_pdf_bytes = base64.b64decode(archivo_pdf_base64)
 
-        conexion = conectar_bd()
+        conexion = obtener_conexion() 
         cursor = conexion.cursor()
 
         query = "INSERT INTO reportes (id_usuario, nombre_reporte, archivo_pdf) VALUES (%s, %s, %s)"
@@ -601,7 +602,6 @@ def guardar_reporte():
     except Exception as e:
         print("Error al guardar el reporte:", e)
         return jsonify({"message": "Error al guardar el reporte", "error": str(e)}), 500
-
 
 
 # ==========================
@@ -657,6 +657,7 @@ def ver_reporte(id_reporte):
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
 
 
