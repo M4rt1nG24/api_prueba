@@ -578,21 +578,32 @@ def guardar_reporte():
     if not id_usuario or not nombre_reporte:
         return jsonify({"message": "Faltan datos requeridos."}), 400
 
-   cursor.execute = "INSERT INTO reportes (id_usuario, nombre_reporte) VALUES (%s, %s)"
-    valores = (id_usuario, nombre_reporte)
-    cursor.execute(sql, valores)
-    conexion.commit()
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
 
-    cursor.close()
-    conexion.close()
+        sql = "INSERT INTO reportes (id_usuario, nombre_reporte) VALUES (%s, %s)"
+        valores = (id_usuario, nombre_reporte)
+        cursor.execute(sql, valores)
+        conexion.commit()
 
-    return jsonify({"message": "Reporte guardado correctamente."})
+        return jsonify({"message": "Reporte guardado correctamente."}), 200
 
+    except Exception as e:
+        print("❌ Error al guardar reporte:", e)
+        return jsonify({"message": f"Error al guardar el reporte: {str(e)}"}), 500
+
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+        if 'conexion' in locals():
+            conexion.close()
 
 
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
 
 
