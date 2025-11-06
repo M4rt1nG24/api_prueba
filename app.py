@@ -602,23 +602,61 @@ def guardar_reporte():
         print("Error al guardar el reporte:", e)
         return jsonify({"message": "Error al guardar el reporte", "error": str(e)}), 500
 
+
+
+# ==========================
+# OBTENER TODOS LOS REPORTES DE UN USUARIO
+# ==========================
+@app.route("/reportes/<int:id_usuario>", methods=["GET"])
+def obtener_reportes(id_usuario):
+    try:
+        conexion = conectar_bd()
+        cursor = conexion.cursor(dictionary=True)
+
+        cursor.execute("SELECT id_reporte, nombre_reporte, fecha_creacion FROM reportes WHERE id_usuario = %s", (id_usuario,))
+        reportes = cursor.fetchall()
+
+        cursor.close()
+        conexion.close()
+
+        return jsonify(reportes), 200
+
+    except Exception as e:
+        print("Error al obtener reportes:", e)
+        return jsonify({"message": "Error al obtener reportes", "error": str(e)}), 500
+
+
+# ==========================
+# DESCARGAR / VER UN REPORTE PDF
+# ==========================
+@app.route("/ver_reporte/<int:id_reporte>", methods=["GET"])
+def ver_reporte(id_reporte):
+    try:
+        conexion = conectar_bd()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT archivo_pdf FROM reportes WHERE id_reporte = %s", (id_reporte,))
+        resultado = cursor.fetchone()
+        cursor.close()
+        conexion.close()
+
+        if not resultado:
+            return jsonify({"message": "Reporte no encontrado"}), 404
+
+        pdf_bytes = resultado[0]
+
+        # Retornar el PDF al navegador
+        from flask import Response
+        return Response(pdf_bytes, mimetype="application/pdf")
+
+    except Exception as e:
+        print("Error al mostrar el reporte:", e)
+        return jsonify({"message": "Error al mostrar el reporte", "error": str(e)}), 500
+
+
+
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
