@@ -569,10 +569,31 @@ def firmar_consulta(id_consulta):
     conexion.close()
     return jsonify({'success': True, 'message': 'Consulta firmada con éxito'})
 
+@app.route('/guardar_reporte', methods=['POST'])
+def guardar_reporte():
+    data = request.get_json()
+    id_usuario = data.get('id_usuario')
+    nombre_reporte = data.get('nombre_reporte')
+
+    if not id_usuario or not nombre_reporte:
+        return jsonify({"message": "Faltan datos requeridos."}), 400
+
+   cursor.execute = "INSERT INTO reportes (id_usuario, nombre_reporte) VALUES (%s, %s)"
+    valores = (id_usuario, nombre_reporte)
+    cursor.execute(sql, valores)
+    conexion.commit()
+
+    cursor.close()
+    conexion.close()
+
+    return jsonify({"message": "Reporte guardado correctamente."})
+
+
 
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
 
 
 
