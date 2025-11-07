@@ -613,17 +613,37 @@ def obtener_reportes(id_usuario):
         conexion = obtener_conexion()
         cursor = conexion.cursor(dictionary=True)
 
-        cursor.execute("SELECT id_reporte, nombre_reporte, fecha_creacion FROM reportes WHERE id_usuario = %s", (id_usuario,))
+        cursor.execute("""
+            SELECT id_reporte, nombre_reporte, fecha_creacion 
+            FROM reportes 
+            WHERE id_usuario = %s
+            ORDER BY fecha_creacion DESC
+        """, (id_usuario,))
         reportes = cursor.fetchall()
 
         cursor.close()
         conexion.close()
 
-        return jsonify(reportes), 200
+        if not reportes:
+            return jsonify({
+                "success": False,
+                "message": "No se encontraron reportes para este usuario."
+            }), 404
+
+        return jsonify({
+            "success": True,
+            "message": "Reportes obtenidos correctamente.",
+            "reportes": reportes
+        }), 200
 
     except Exception as e:
-        print("Error al obtener reportes:", e)
-        return jsonify({"message": "Error al obtener reportes", "error": str(e)}), 500
+        print("❌ Error al obtener reportes:", e)
+        return jsonify({
+            "success": False,
+            "message": "Error interno al obtener reportes.",
+            "error": str(e)
+        }), 500
+
 
 
 # ==========================
