@@ -652,7 +652,7 @@ def obtener_reportes(id_usuario):
 @app.route("/ver_reporte/<int:id_reporte>", methods=["GET"])
 def ver_reporte(id_reporte):
     try:
-        conexion = conexion()
+        conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute("SELECT archivo_pdf FROM reportes WHERE id_reporte = %s", (id_reporte,))
         resultado = cursor.fetchone()
