@@ -499,7 +499,7 @@ def obtener_consultas_lider():
         LEFT JOIN modulos m ON c.modulo = m.id
         JOIN usuarios d ON c.id_docente = d.id
         WHERE e.rol = 'Estudiante'
-        ORDER BY c.id ASC
+        ORDER BY c.id DESC
     """)
     consultas = cursor.fetchall()
     cursor.close()
@@ -520,6 +520,7 @@ def obtener_consultas_docente(id_docente):
         LEFT JOIN programas_academicos p ON e.id_programa = p.id
         LEFT JOIN modulos m ON c.modulo = m.id
         WHERE c.id_docente = %s
+                   ORDER BY c.id DESC
     """, (id_docente,))
     consultas = cursor.fetchall()
     cursor.close()
@@ -540,6 +541,7 @@ def obtener_consultas_por_estudiante(id_estudiante):
         LEFT JOIN modulos m ON c.modulo = m.id
         WHERE c.id_estudiante = %s
         ORDER BY c.fecha DESC, c.hora DESC
+                   ORDER BY c.id DESC
     """, (id_estudiante,))
     consultas = cursor.fetchall()
     cursor.close()
