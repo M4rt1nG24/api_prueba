@@ -339,23 +339,6 @@ def estudiantes_docente_solicitud(id_docente):
     conexion.close()
     return jsonify({"success": True, "estudiantes": estudiantes})
 
-@app.route("/docentes_estudiante/<int:id_estudiante>", methods=["GET"])
-def docentes_estudiante(id_estudiante):
-    conexion = obtener_conexion()
-    cursor = conexion.cursor(dictionary=True)
-
-    cursor.execute("""
-        SELECT DISTINCT d.id, d.nombre
-        FROM usuarios d
-        INNER JOIN consultas c ON d.id = c.id_docente
-        WHERE c.id_estudiante = %s AND d.rol = 'Docente'
-    """, (id_estudiante,))
-
-    docentes = cursor.fetchall()
-    cursor.close()
-    conexion.close()
-    return jsonify({"success": True, "docentes": docentes})
-
 
 
 @app.route('/obtener_lideres', methods=['GET'])
