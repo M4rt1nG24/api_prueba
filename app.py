@@ -464,13 +464,15 @@ def editar_consulta(id):
     data = request.get_json()
     nueva_fecha = data.get("fecha")
     nueva_hora = data.get("hora")
+    nuevo_lugar =data.get("lugar")
+    nuevo_tema = data.get("tema")
 
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
-            "UPDATE consultas SET fecha = %s, hora = %s WHERE id = %s",
-            (nueva_fecha, nueva_hora, id)
+            "UPDATE consultas SET fecha = %s, hora = %s,lugar_consulta=%s,tema=%s WHERE id = %s",
+            (nueva_fecha, nueva_hora,nuevo_lugar,nuevo_tema, id)
         )
         conexion.commit()
         cursor.close()
