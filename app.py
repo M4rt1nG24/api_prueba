@@ -449,9 +449,7 @@ def editar_consulta(id):
         return jsonify({"success": False, "error": str(e)})
     
 
-# ==========================
-# Obtiene las consultas del lider
-# ==========================
+
 
 @app.route('/consultas_lider', methods=['GET'])
 def obtener_consultas_lider():
