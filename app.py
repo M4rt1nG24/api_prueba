@@ -449,7 +449,9 @@ def editar_consulta(id):
         return jsonify({"success": False, "error": str(e)})
     
 
-
+# ==========================
+# Obtiene las consultas del lider
+# ==========================
 
 @app.route('/consultas_lider', methods=['GET'])
 def obtener_consultas_lider():
@@ -472,6 +474,9 @@ def obtener_consultas_lider():
     conexion.close()
     return jsonify({'success': True, 'consultas': consultas})
 
+# ==========================
+# Obtiene las consultas del docente
+# ==========================
 
 @app.route('/consultas_docente/<id_docente>', methods=['GET'])
 def obtener_consultas_docente(id_docente):
@@ -494,6 +499,10 @@ def obtener_consultas_docente(id_docente):
     return jsonify({'success': True, 'consultas': consultas})
 
 
+# ==========================
+# Obtiene las consultas del estudiante
+# ==========================
+
 @app.route('/consultas_estudiante/<id_estudiante>', methods=['GET'])
 def obtener_consultas_por_estudiante(id_estudiante):
     conexion = obtener_conexion()
@@ -513,6 +522,10 @@ def obtener_consultas_por_estudiante(id_estudiante):
     conexion.close()
     return jsonify({'success': True, 'consultas': consultas})
 
+
+# ==========================
+# Firmar la consulta
+# ==========================
 
 @app.route('/firmar_consulta/<int:id_consulta>', methods=['POST'])
 def firmar_consulta(id_consulta):
@@ -539,7 +552,7 @@ def firmar_consulta(id_consulta):
     return jsonify({'success': True, 'message': 'Consulta firmada con éxito'})
 
 # ==========================
-# GUARDAR REPORTE EN PDF
+# GUARDAR REPORTE EN PDF  (Deshabilitado)
 # ==========================
 @app.route("/guardar_reporte", methods=["POST"])
 def guardar_reporte():
@@ -574,7 +587,7 @@ def guardar_reporte():
 
 
 # ==========================
-# OBTENER TODOS LOS REPORTES DE UN USUARIO
+# OBTENER TODOS LOS REPORTES DE UN USUARIO (Deshabilitado)
 # ==========================
 @app.route("/reportes/<int:id_usuario>", methods=["GET"])
 def obtener_reportes(id_usuario):
@@ -616,7 +629,7 @@ def obtener_reportes(id_usuario):
 
 
 # ==========================
-# DESCARGAR / VER UN REPORTE PDF
+# DESCARGAR / VER UN REPORTE PDF (Deshabilitado)
 # ==========================
 @app.route("/ver_reporte/<int:id_reporte>", methods=["GET"])
 def ver_reporte(id_reporte):
