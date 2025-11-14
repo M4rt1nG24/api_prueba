@@ -223,7 +223,7 @@ def obtener_solicitudes_estudiante(id_estudiante):
         JOIN usuarios d ON s.id_docente = d.id
         JOIN modulos m ON s.id_modulo = m.id
         WHERE s.id_estudiante = %s
-        ORDER BY s.fecha DESC, s.hora DESC
+        ORDER BY s.id DESC
     """, (id_estudiante,))
     solicitudes = cursor.fetchall()
     cursor.close()
