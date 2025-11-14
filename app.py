@@ -430,7 +430,7 @@ def editar_consulta(id):
     data = request.get_json()
     nueva_fecha = data.get("fecha")
     nueva_hora = data.get("hora")
-    nuevo_lugar =data.get("lugar")
+    nuevo_lugar =data.get("lugar_consulta")
     nuevo_tema = data.get("tema")
 
     try:
