@@ -192,7 +192,7 @@ def obtener_solicitudes_docente(id_docente):
         LEFT JOIN programas_academicos p ON e.id_programa = p.id
         JOIN modulos m ON s.id_modulo = m.id
         WHERE s.id_docente = %s
-        ORDER BY s.fecha DESC, s.hora DESC
+        ORDER BY s.id DESC
     """, (id_docente,))
     solicitudes = cursor.fetchall()
     cursor.close()
